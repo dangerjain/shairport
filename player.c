@@ -571,6 +571,8 @@ void player_flush(void) {
     pthread_mutex_lock(&ab_mutex);
     ab_resync();
     pthread_mutex_unlock(&ab_mutex);
+    metadata_set(&player_meta.status, "paused");
+	player_metadata();
 }
 
 int player_play(stream_cfg *stream) {
@@ -591,11 +593,14 @@ int player_play(stream_cfg *stream) {
     command_start();
     config.output->start(sampling_rate);
     pthread_create(&player_thread, NULL, player_thread_func, NULL);
-
+	metadata_set(&player_meta.status, "playing");
+	player_metadata();
     return 0;
 }
 
 void player_stop(void) {
+	metadata_set(&player_meta.status, "stopped");
+	player_metadata();
     please_stop = 1;
     pthread_join(player_thread, NULL);
     config.output->stop();

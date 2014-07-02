@@ -64,6 +64,8 @@ void metadata_write(const char* dir) {
     fprintf(fh, "%s\n", player_meta.album);
     fprintf(fh, "%s\n", player_meta.artwork);
     fprintf(fh, "%s\n", player_meta.genre);
+    fprintf(fh, "%s\n", player_meta.status);
+    
     fprintf(fh, "%s\n", (player_meta.comment == NULL) ? "" : player_meta.comment);
     fclose(fh);
   }
